@@ -39,18 +39,18 @@ public class ProdutoController {
         }
         return ResponseEntity.ok(produtos);
     }
+    
+    @PostMapping
+    public ResponseEntity<Produto> salvarProduto(@RequestBody Produto produto) {
+        Produto novoProduto = produtoService.salvarProduto(produto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoProduto);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Produto> buscarProdutoPorId(@PathVariable UUID id) {
         Optional<Produto> produto = produtoService.buscarProdutoPorId(id);
         return produto.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-    }
-
-    @PostMapping
-    public ResponseEntity<Produto> salvarProduto(@RequestBody Produto produto) {
-        Produto novoProduto = produtoService.salvarProduto(produto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novoProduto);
     }
 
     @DeleteMapping("/{id}")
