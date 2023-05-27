@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_PASSWORD=adminadmin
+    volumes:
+      - ./database-docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./database-docker/postgres-data:/var/lib/postgresql/data
+    networks:
+      - crud-network
+
+  spring-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+    networks:
+      - crud-network
+
+  react-app:
+    build:
+      context: ./front-crud-oak # Diretório do aplicativo React
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000 # Porta para o aplicativo React
+    depends_on:
+      - spring-app
+    networks:
+      - crud-network
+
+networks:
+  crud-network:
+    driver: bridge
