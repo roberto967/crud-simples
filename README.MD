@@ -3,14 +3,15 @@
 ## Como rodar
 
 No linux certifique-se de ter o docker-compose instalado, após isso é só dar o seguinte comando na primeira execução:
-`mvn clean package`
-`sudo docker-compose up --build`
+`mvn clean package && sudo docker-compose up --build`
 
 execuções posteriores:
 `sudo docker-compose up`
 
 Caso faça alguma modificação:
 `sudo mvn clean package && sudo docker-compose up --build`
+
+---
 
 ### Cadastro
 
